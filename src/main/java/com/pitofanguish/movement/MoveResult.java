@@ -1,4 +1,6 @@
-package com.pitofanguish;
+package com.pitofanguish.movement;
+
+import com.pitofanguish.imagegenerator.ImageGenerator;
 
 //class to pass MoveType and image for next move
 public class MoveResult {

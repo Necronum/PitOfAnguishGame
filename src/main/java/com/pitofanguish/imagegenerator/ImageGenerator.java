@@ -1,22 +1,22 @@
-package com.pitofanguish;
+package com.pitofanguish.imagegenerator;
 
-import com.pitofanguish.imagegenerator.Player;
 import com.pitofanguish.items.Food;
 import com.pitofanguish.items.Gold;
 import com.pitofanguish.items.Monster;
 import com.pitofanguish.items.Weapon;
+import com.pitofanguish.movement.CharacterType;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 
-import static com.pitofanguish.ContentGenerator.TILE_SIZE;
+import static com.pitofanguish.imagegenerator.ContentGenerator.TILE_SIZE;
 
 public class ImageGenerator extends StackPane {
-    private final static Monster MONSTER = new Monster();
-    private final static Gold GOLD = new Gold();
-    private final static Weapon WEAPON = new Weapon();
-    private final static Food FOOD = new Food();
-    private final static Player PLAYER = new Player();
+    private static final Monster MONSTER = new Monster();
+    private static final Gold GOLD = new Gold();
+    private static final Weapon WEAPON = new Weapon();
+    private static final Food FOOD = new Food();
+    private static final Player PLAYER = new Player();
     private final CharacterType type;
 
     private double mouseX, mouseY;

@@ -1,7 +1,5 @@
 package com.pitofanguish.imagegenerator;
 
-import com.pitofanguish.ContentGenerator;
-import com.pitofanguish.ImageGenerator;
 import com.pitofanguish.items.Item;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;

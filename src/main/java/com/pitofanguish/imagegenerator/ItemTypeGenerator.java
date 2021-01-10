@@ -1,5 +1,7 @@
-package com.pitofanguish;
+package com.pitofanguish.imagegenerator;
 
+
+import com.pitofanguish.movement.CharacterType;
 
 import java.util.Random;
 
@@ -25,7 +27,7 @@ public class ItemTypeGenerator {
     }
 
     //generates board with characters for next round with harder events after round 20
-    public CharacterType randomizeTypeRound(int roundNumber, int x, int y){
+    public CharacterType randomizeTypeRound(int roundNumber){
         int value = rnd.nextInt(100);
         CharacterType type;
         if (roundNumber < 20){

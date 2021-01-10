@@ -1,11 +1,12 @@
-package com.pitofanguish;
+package com.pitofanguish.menu;
 
+import com.pitofanguish.Game;
+import com.pitofanguish.imagegenerator.ContentGenerator;
 import com.pitofanguish.io.EventHandler;
 import com.pitofanguish.io.LeaderBoard;
 import com.pitofanguish.io.PoASave;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,21 +22,23 @@ import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
-import static com.pitofanguish.ContentGenerator.TILE_SIZE;
-import static com.pitofanguish.ContentGenerator.WIDTH;
-import static com.pitofanguish.ContentGenerator.HEIGHT;
+import static com.pitofanguish.imagegenerator.ContentGenerator.TILE_SIZE;
+import static com.pitofanguish.imagegenerator.ContentGenerator.WIDTH;
+import static com.pitofanguish.imagegenerator.ContentGenerator.HEIGHT;
 
 
 public class MainMenu {
-    public final static Image LOGO = new Image("file:src/main/resources/logo.png");
-    public final static int TEXT_FIELD_SIZE = 220;
-    public final static int BUTTON_SIZE = 100;
+    public static final Image LOGO = new Image("file:src/main/resources/logo.png");
+    public static final int TEXT_FIELD_SIZE = 220;
+    public static final int BUTTON_SIZE = 100;
     public static String nickname;
-    private PoASave loader = null;
+    private final PoASave loader = new PoASave();
+
+    public MainMenu() throws IOException {
+    }
 
     //starting menu with buttons and logo
     public Parent menu(Stage primaryStage) {
-        //Main border
         BorderPane root = new BorderPane();
         root.setPrefSize(WIDTH *TILE_SIZE,(HEIGHT *TILE_SIZE)+40);
         BackgroundSize backgroundSize = new BackgroundSize(Game.BACKGROUND_WIDTH, Game.BACKGROUND_HEIGHT, true, true, true, true);
@@ -66,32 +69,15 @@ public class MainMenu {
         startGame.setMaxWidth(BUTTON_SIZE);
         startGame.setOnAction(e -> {
             if (nickname == null){
-                Alert emptyNickname = new Alert(Alert.AlertType.WARNING);
-                emptyNickname.setTitle("Your nickname is empty!");
-                emptyNickname.setHeaderText(null);
-                emptyNickname.setContentText("Please enter Your nickname and press \"ENTER\" before starting game.");
-                emptyNickname.showAndWait();
+                event.emptyNicknameEventHandler();
             } else {
-                ContentGenerator game = new ContentGenerator();
-                primaryStage.getScene().setRoot(game.createContent(primaryStage));
+                newGame(primaryStage);
             }
         });
-
-//        Button load = new Button("Load Game");
-//        load.setMaxWidth(BUTTON_SIZE);
 
         Button leaderBoardShow = new Button("Leaderboard");
         leaderBoardShow.setMaxWidth(BUTTON_SIZE);
-        leaderBoardShow.setOnAction(e -> {
-            try {
-                loader = new PoASave();
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
-            LeaderBoard leaderBoard = loader.loadLeaderBoard();
-            LeaderBoardMenu leaderBoardMenu = new LeaderBoardMenu();
-            primaryStage.getScene().setRoot(leaderBoardMenu.leaderMenu(primaryStage, leaderBoard));
-        });
+        leaderBoardShow.setOnAction(e -> loadLeaderboard(primaryStage));
 
         Button endButton = new Button("Exit Game");
         endButton.setMaxWidth(BUTTON_SIZE);
@@ -104,7 +90,6 @@ public class MainMenu {
         );
 
         startGame.setStyle("-fx-background-color: #100c08; -fx-text-fill: #fffafa");
-        //load.setStyle("-fx-background-color: #100c08; -fx-text-fill: #fffafa");
         leaderBoardShow.setStyle("-fx-background-color: #100c08; -fx-text-fill: #fffafa");
         endButton.setStyle("-fx-background-color: #100c08; -fx-text-fill: #fffafa");
         nicknameField.setStyle("-fx-background-color: #100c08; -fx-text-fill: #fffafa");
@@ -112,7 +97,6 @@ public class MainMenu {
         options.add(setNickname, 0, 0,2,1);
         options.add(nicknameField, 0, 1,2,1);
         options.add(startGame, 0, 2,1,1);
-        //options.add(load, 1, 2,1,1);
         options.add(leaderBoardShow, 0, 3,1,1);
         options.add(endButton, 1, 3,1,1);
 
@@ -120,5 +104,16 @@ public class MainMenu {
         root.setTop(logo);
         root.setCenter(options);
         return root;
+    }
+
+    private void newGame (Stage primaryStage){
+        ContentGenerator game = new ContentGenerator();
+        primaryStage.getScene().setRoot(game.createContent(primaryStage));
+    }
+
+    private void loadLeaderboard (Stage primaryStage){
+        LeaderBoard leaderBoard = loader.loadLeaderBoard();
+        LeaderBoardMenu leaderBoardMenu = new LeaderBoardMenu();
+        primaryStage.getScene().setRoot(leaderBoardMenu.leaderMenu(primaryStage, leaderBoard));
     }
 }

@@ -1,5 +1,6 @@
-package com.pitofanguish;
+package com.pitofanguish.menu;
 
+import com.pitofanguish.Game;
 import com.pitofanguish.io.EventHandler;
 import com.pitofanguish.io.Leader;
 import com.pitofanguish.io.LeaderBoard;
@@ -17,8 +18,10 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
-import static com.pitofanguish.ContentGenerator.*;
-import static com.pitofanguish.ContentGenerator.TILE_SIZE;
+import java.io.IOException;
+
+import static com.pitofanguish.imagegenerator.ContentGenerator.*;
+import static com.pitofanguish.imagegenerator.ContentGenerator.TILE_SIZE;
 
 public class LeaderBoardMenu {
     private Stage mainStage;
@@ -60,12 +63,14 @@ public class LeaderBoardMenu {
         }
 
         Button mainMenu = new Button("Main menu");
-        mainMenu.setOnAction(e -> {
-            Platform.runLater(() -> {
-                mainStage.close();
+        mainMenu.setOnAction(e -> Platform.runLater(() -> {
+            mainStage.close();
+            try {
                 new Game().start(new Stage());
-            });
-        });
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }));
 
         EventHandler event = new EventHandler();
         primaryStage.setOnCloseRequest(event.confirmCloseEventHandler);

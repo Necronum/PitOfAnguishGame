@@ -21,6 +21,14 @@ dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
 }
 
+jar {
+    classifier 'fat'
+
+   manifest{
+       attributes 'Main-Class': 'com.pitofanguish.PitOfAnguish'
+   }
+}
+
 test {
 
 }
